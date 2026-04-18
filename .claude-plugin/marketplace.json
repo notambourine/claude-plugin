@@ -1,0 +1,14 @@
+{
+  "name": "notambourine",
+  "owner": {
+    "name": "NoTambourine LLC",
+    "url": "https://notambourine.com"
+  },
+  "plugins": [
+    {
+      "name": "nt",
+      "source": ".",
+      "description": "NoTambourine infrastructure plugin: skills, hooks, and subagents for running a consulting practice on mdql + marp + pandoc."
+    }
+  ]
+}

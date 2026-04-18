@@ -7,7 +7,8 @@ build pipeline.
 **Install**
 
 ```bash
-claude plugin add notambourine/claude-plugin
+claude plugin marketplace add notambourine/claude-plugin
+claude plugin install nt@notambourine --scope user
 ```
 
 Slash commands become `/nt:<name>`.
