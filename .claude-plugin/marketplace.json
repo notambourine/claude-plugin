@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "nt",
-      "source": ".",
+      "source": "./",
       "description": "NoTambourine infrastructure plugin: skills, hooks, and subagents for running a consulting practice on mdql + marp + pandoc."
     }
   ]
