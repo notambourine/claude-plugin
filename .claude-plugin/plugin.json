@@ -1,0 +1,11 @@
+{
+  "name": "nt",
+  "version": "0.1.0",
+  "description": "NoTambourine infrastructure plugin for Claude Code: skills, hooks, and subagents for running a consulting practice on mdql + marp + pandoc. Content (templates, pricing, coaching) lives in a separate private vault.",
+  "author": {
+    "name": "NoTambourine LLC",
+    "url": "https://notambourine.com"
+  },
+  "repository": "https://github.com/notambourine/claude-plugin",
+  "license": "MIT"
+}
