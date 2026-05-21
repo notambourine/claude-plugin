@@ -47,6 +47,6 @@ git diff --cached | grep -nE '^\+.*[^/.\-_a-z`]notambourine[^/.\-_a-z`]'
 
 For any hit, ask: "if a client read this, would they expect the wordmark or the slug?" If wordmark → flag. If slug (it's a path, URL, identifier) → ignore.
 
-## Subagent handoff
+## Scope
 
-For a full doc/deck review that also checks voice, density, and structure — not just wordmark — delegate to the `brand-pedant` subagent. Lighter-weight for a single-file wordmark check; use the grep recipes above.
+This skill checks the wordmark only. For a full doc/deck review that also covers voice, density, and structure, use a general-purpose review pass — the grep recipes above are the wordmark-specific layer.

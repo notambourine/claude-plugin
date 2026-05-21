@@ -8,7 +8,7 @@
     {
       "name": "nt",
       "source": "./",
-      "description": "NoTambourine infrastructure plugin: skills, hooks, and subagents for running a consulting practice on mdql + marp + pandoc."
+      "description": "NoTambourine Claude Code plugin. Ships /nt:brand-check, a wordmark audit skill for human-facing copy."
     }
   ]
 }
