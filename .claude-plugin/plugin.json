@@ -1,6 +1,6 @@
 {
+  "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
   "name": "nt",
-  "version": "0.1.0",
   "description": "NoTambourine Claude Code plugin. Ships /nt:brand-check, a wordmark audit skill for human-facing copy.",
   "author": {
     "name": "NoTambourine LLC",

@@ -1,0 +1,39 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      # Schema-validates marketplace.json, plugin.json, and skill/agent/hook
+      # frontmatter. --strict promotes unrecognized-field warnings to errors.
+      - name: Validate plugin + marketplace schema
+        run: claude plugin validate . --strict
+
+      # claude plugin validate does NOT check that the two description fields
+      # agree -- they are allowed to differ by design. This repo keeps them in
+      # sync deliberately, so guard against silent drift.
+      - name: Check description parity (plugin.json <-> marketplace.json)
+        run: |
+          plugin_desc=$(jq -r '.description' .claude-plugin/plugin.json)
+          market_desc=$(jq -r '.plugins[] | select(.name == "nt") | .description' .claude-plugin/marketplace.json)
+          if [ "$plugin_desc" != "$market_desc" ]; then
+            echo "::error::description drift between plugin.json and marketplace.json"
+            echo "  plugin.json:      $plugin_desc"
+            echo "  marketplace.json: $market_desc"
+            exit 1
+          fi
+          echo "descriptions match: $plugin_desc"
