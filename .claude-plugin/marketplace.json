@@ -1,6 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
   "name": "notambourine",
+  "description": "Claude Code plugins for the NoTambourine consulting practice.",
   "owner": {
     "name": "NoTambourine LLC",
     "url": "https://notambourine.com"
