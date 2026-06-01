@@ -1,3 +1,29 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/npm-malware-scan.sh\"",
+            "if": "Bash(npm *)|Bash(npx *)|Bash(pnpm *)|Bash(yarn *)|Bash(bun *)|Bash(node *)",
+            "statusMessage": "Scanning for supply-chain malware..."
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/npm-malware-scan.sh\"",
+            "statusMessage": "Scanning node_modules for supply-chain malware..."
+          }
+        ]
+      }
+    ]
+  }
 }
