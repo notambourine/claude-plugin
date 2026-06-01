@@ -13,6 +13,19 @@
         ]
       }
     ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/scripts/npm-malware-scan.sh\"",
+            "if": "Bash(npm *)|Bash(pnpm *)|Bash(yarn *)|Bash(bun *)",
+            "statusMessage": "Post-install supply-chain scan..."
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "startup",
