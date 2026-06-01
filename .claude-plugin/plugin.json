@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.schemastore.org/claude-code-plugin-manifest.json",
   "name": "nt",
-  "description": "NoTambourine Claude Code plugin. Ships /nt:brand-check, a wordmark audit skill for human-facing copy.",
+  "description": "NoTambourine Claude Code plugin. Ships /nt:brand-check (wordmark audit) and an npm/node supply-chain malware scanner hook (Shai-Hulud, Axios RAT, agent-hijack IOCs).",
   "author": {
     "name": "NoTambourine LLC",
     "url": "https://notambourine.com"
