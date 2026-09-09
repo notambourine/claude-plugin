@@ -11,8 +11,9 @@ Draft only. Never post.
 * **Label:** Outcome in one short sentence.
 ```
 
-Label is a bolded one-or-two-word noun for the surface that changed. The sentence names the
-effect on the reader, not the mechanism.
+Mark every bullet with `*`; Slack renders `-` as a literal dash. Label is a bolded
+one-or-two-word noun for the surface that changed. The sentence names the effect on the
+reader, not the mechanism.
 
 ## Sections
 
