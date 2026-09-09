@@ -34,22 +34,16 @@ Mode:
   `develop`, `release`, else `HEAD`.
 - Retrospective: previous to current observed remote-default reflog tip.
 
-Fetch `origin`; stop on failure. Resolve endpoints, short SHAs, dates, count. Confirm before
-writing:
+Fetch `origin`; stop on failure. Resolve endpoints, short SHAs, dates, count, then write the
+update. Never ask the user to confirm the range; a range the user named in the invocation is
+already the answer.
 
-```text
-mode: <pre-deploy | retrospective>
-prev: <sha> (<date>) -> target: <sha> (<date>)
-<N> commits in range - write the deploy update? [y / pick a different point]
-```
+Zero: nothing pending/shipped. Empty retrospective reflog: request one. No origin: request
+deployment repo. An explicit range accepts reflog entry, SHA, tag, date.
 
-Zero: nothing pending/shipped. Wider range accepts reflog entry, SHA, tag, date. Empty
-retrospective reflog: request one. No origin: request deployment repo.
-
-After confirmation, inspect non-merge commits. Resolve PR by referenced number or SHA; read
-PR body, then linked issues and diff stat as needed. Exclude work ancestral to start.
-Translate unsupported commits cautiously. Collapse related work and routine dependency/CI
-noise.
+Inspect non-merge commits. Resolve PR by referenced number or SHA; read PR body, then linked
+issues and diff stat as needed. Exclude work ancestral to start. Translate unsupported
+commits cautiously. Collapse related work and routine dependency/CI noise.
 
 Return only:
 
