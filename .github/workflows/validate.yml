@@ -9,6 +9,8 @@ permissions:
   contents: read
 
 jobs:
+  # Repo-invariant gates. Nothing here reads the OS, so one runner is the whole coverage:
+  # a second would re-derive the same answer from the same committed JSON.
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -28,8 +30,9 @@ jobs:
       - name: Install Claude Code CLI
         run: sfw npm install -g @anthropic-ai/claude-code
 
-      # Fetches the pinned brand-kit tarball, which is what `npm run brand` below
-      # compares the committed mirror against.
+      # Deliberately uncached and wrapped: no step in this job reads node_modules. The
+      # install is here so the firewall sees every fetch in the lockfile once per PR,
+      # which is the gate the cached installs in `portable` below are allowed to skip.
       - name: Install dependencies
         run: sfw npm ci
 
@@ -39,29 +42,6 @@ jobs:
       # warning to a hard error. Genuine schema errors still fail the step.
       - name: Validate plugin + marketplace schema
         run: claude plugin validate .
-
-      # A plugin install runs no npm, so nt-brand's skill directory has to be committed
-      # bytes. This is the only thing standing between a hand-edit there and a brand the
-      # published package never said - a stale token or a drifted font byte.
-      - name: Verify brand-kit mirror
-        run: npm run brand
-
-      # Offline half of the vendoring contract: vendor/pristine must still hash to the
-      # manifest pins, so the merge base a `pull` reads is the bytes it was cut from.
-      # The network half is vendor-skills.yml, weekly.
-      - name: Verify vendored skill merge base
-        run: node scripts/vendor-skills.mjs verify
-
-      # A SKILL.md is prose an agent runs verbatim, and nothing else here puts it
-      # through a shell. This is the only gate between a macOS-only invocation and a
-      # teammate on Windows or Linux running it.
-      - name: Check portable shell in first-party skills
-        run: node scripts/check-portable.mjs
-
-      # A hook runs on somebody's machine with no one reading its output, so its decision
-      # table is the one thing here that has to be executable rather than reviewed.
-      - name: Run plugin hook tests
-        run: npm test
 
       # Every plugin that lives here is nt-prefixed, so `/nt-` lists this
       # practice's commands and nothing else. A remote row is named for what it
@@ -100,13 +80,18 @@ jobs:
                           | "\(.name) \(.source)"' .claude-plugin/marketplace.json)
           exit $fail
 
-  # The practice runs on macOS and CI runs on Linux, so a Windows teammate is the one
-  # person no other job stands in for. This runner is what makes the two Windows
-  # contracts fail loudly: .gitattributes keeping the checkout at LF, the mirror scripts
-  # keying their trees by forward slash whatever node:path reports, and the hooks
-  # resolving a body-file path the Git Bash shell handed them.
-  windows:
-    runs-on: windows-latest
+  # The cross-platform half. These four gates are the only ones whose answer can differ
+  # by OS, and the practice runs on macOS while CI runs on Linux, so each is the other's
+  # only witness: .gitattributes keeping the checkout at LF, the mirror scripts keying
+  # their trees by forward slash whatever node:path reports, and the hooks resolving a
+  # body-file path the shell handed them. Every script below is node and git only, so
+  # neither leg needs an OS carve-out.
+  portable:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -116,24 +101,35 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
+          # Tarballs only, keyed by lockfile and runner OS. The unpack still runs every
+          # leg, which is the cheap half here: the tree is a handful of dev deps.
+          cache: npm
 
-      # Deliberately not behind sfw. The validate job above installs this same lockfile
-      # through the firewall on every PR, so the fetch-time gate has already seen this
-      # package set; a second wrap scans nothing new and Socket ships no Windows binary.
+      # Unwrapped on purpose. The `validate` job puts this same lockfile through the
+      # firewall on every PR, so the fetch-time gate has already seen this package set
+      # and a cache hit here skips nothing that gate covers.
       - name: Install dependencies
         run: npm ci
 
+      # A plugin install runs no npm, so nt-brand's skill directory has to be committed
+      # bytes. This is the only thing standing between a hand-edit there and a brand the
+      # published package never said - a stale token or a drifted font byte.
       - name: Verify brand-kit mirror
         run: npm run brand
 
+      # Offline half of the vendoring contract: vendor/pristine must still hash to the
+      # manifest pins, so the merge base a `pull` reads is the bytes it was cut from.
+      # The network half is vendor-skills.yml, weekly.
       - name: Verify vendored skill merge base
         run: node scripts/vendor-skills.mjs verify
 
+      # A SKILL.md is prose an agent runs verbatim, and nothing else here puts it
+      # through a shell. This is the only gate between a macOS-only invocation and a
+      # teammate on Windows or Linux running it.
       - name: Check portable shell in first-party skills
         run: node scripts/check-portable.mjs
 
-      # The reason these run here and not only on Linux: a hook reads paths out of a shell
-      # command, and Git Bash hands it an MSYS `/tmp/...` root that win32 node resolves to
-      # the wrong drive. Nothing but this runner catches that.
+      # A hook runs on somebody's machine with no one reading its output, so its decision
+      # table is the one thing here that has to be executable rather than reviewed.
       - name: Run plugin hook tests
         run: npm test
