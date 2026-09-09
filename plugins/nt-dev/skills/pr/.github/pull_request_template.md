@@ -1,4 +1,4 @@
-<!-- 150 words max. Remove comments. One physical line per paragraph, bullet, checkbox. Empty: `_none_`; omit Screenshots for non-visual changes. -->
+<!-- 150 words max, 80 characters per bullet, 200 per paragraph. Remove comments. One physical line per paragraph, bullet, checkbox. Empty: `_none_`; omit Screenshots for non-visual changes. -->
 
 ## Goal
 

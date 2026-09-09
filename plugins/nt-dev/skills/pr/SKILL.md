@@ -15,6 +15,10 @@ template's headings and markers.
 Plain register: concrete nouns, no inflated adjectives, no `not just X but Y` framing, no
 closing flourish.
 
+Hard caps, whichever template you use: 80 characters per bullet, 200 per paragraph. Over the
+cap, cut a claim; never split it across lines or move it into a bullet. Count before
+submitting and again after any revision.
+
 Derive problem, outcome, scope, decisions from issue, source, diff, and commits. Never rely
 on branch or subjects alone. Open on outcome. Explain behavior and decisions, not files.
 Keep proportional. Specific title. Draft unless ready requested.

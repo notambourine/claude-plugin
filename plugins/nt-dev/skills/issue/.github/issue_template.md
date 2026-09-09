@@ -1,4 +1,4 @@
-<!-- 120 words max. Remove comments. `Parent: #N` on the first line when the issue has one. -->
+<!-- 120 words max, 80 characters per bullet, 200 per paragraph. Remove comments. `Parent: #N` on the first line when the issue has one. -->
 
 ## Outcome
 
