@@ -23,20 +23,23 @@ unrecoverable work, tomorrow, blockers.
 Return only:
 
 ```text
-🌇 EOD Update DD-MM-YYYY
+🌇 *EOD Update DD-MM-YYYY*
 
-✅ Done:
+✅ *Done*
 • [item]
 
-🔨 Doing:
+🔨 *Doing*
 • [item]
 
-🚩 Blockers:
+🚩 *Blockers*
 • [item or None]
 
-📝 Notes:
+📝 *Notes*
 [optional]
 ```
+
+Slack strips markdown on paste, so emit Slack mrkdwn: bold is `*one asterisk*`, bullets are a
+literal `•`, and the block is bare text rather than a fenced code block.
 
 Short items. PR numbers, no URLs. Always Blockers. Omit empty Notes. Missing repo context:
 use answers only.

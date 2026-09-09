@@ -48,15 +48,13 @@ commits cautiously. Collapse related work and routine dependency/CI noise.
 Return only:
 
 ```text
-🚀 **Deploys: <window> (M/D/YY)**
+🚀 *Deploys: <window> (M/D/YY)*
 
-✨ **Features**
+✨ *Features*
+• *Label:* Outcome in one short sentence.
 
-* **Label:** Outcome in one short sentence.
-
-🛠️ **Fixes**
-
-* **Label:** Outcome in one short sentence.
+🛠️ *Fixes*
+• *Label:* Outcome in one short sentence.
 ```
 
 Window names the range in the reader's terms: `Last N Days` retrospective, `Pending`

@@ -24,19 +24,16 @@ names. Skip empty PRs.
 Return only:
 
 ```text
-📅 **Weekly Dev Recap: Mon D - Mon D, YYYY**
+📅 *Weekly Dev Recap: Mon D - Mon D, YYYY*
 
-🚀 **Shipped**
+🚀 *Shipped*
+• *Label:* Outcome in one short sentence.
 
-* **Label:** Outcome in one short sentence.
+🔨 *In Progress*
+• *Label:* Outcome in one short sentence.
 
-🔨 **In Progress**
-
-* **Label:** Outcome in one short sentence.
-
-👀 **In Review**
-
-* **Label:** Outcome in one short sentence.
+👀 *In Review*
+• *Label:* Outcome in one short sentence.
 ```
 
 Exactly these four emoji, in this order.
