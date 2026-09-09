@@ -28,44 +28,15 @@ jobs:
       - name: Install Claude Code CLI
         run: sfw npm install -g @anthropic-ai/claude-code
 
-      # Fetches the pinned brand-kit tarball, which is what `npm run brand` below
-      # compares the committed mirror against.
+      # No consumer of node_modules here; the firewall needs to see every fetch once per PR.
       - name: Install dependencies
         run: sfw npm ci
 
-      # Schema-validates marketplace.json, plugin.json, and skill/agent/hook
-      # frontmatter. Runs without --strict on purpose: this plugin ships no
-      # version field by design, and --strict promotes that "no version"
-      # warning to a hard error. Genuine schema errors still fail the step.
+      # No --strict: it fails the missing version field this plugin omits by design.
       - name: Validate plugin + marketplace schema
         run: claude plugin validate .
 
-      # A plugin install runs no npm, so nt-brand's skill directory has to be committed
-      # bytes. This is the only thing standing between a hand-edit there and a brand the
-      # published package never said - a stale token or a drifted font byte.
-      - name: Verify brand-kit mirror
-        run: npm run brand
-
-      # Offline half of the vendoring contract: vendor/pristine must still hash to the
-      # manifest pins, so the merge base a `pull` reads is the bytes it was cut from.
-      # The network half is vendor-skills.yml, weekly.
-      - name: Verify vendored skill merge base
-        run: node scripts/vendor-skills.mjs verify
-
-      # A SKILL.md is prose an agent runs verbatim, and nothing else here puts it
-      # through a shell. This is the only gate between a macOS-only invocation and a
-      # teammate on Windows or Linux running it.
-      - name: Check portable shell in first-party skills
-        run: node scripts/check-portable.mjs
-
-      # A hook runs on somebody's machine with no one reading its output, so its decision
-      # table is the one thing here that has to be executable rather than reviewed.
-      - name: Run plugin hook tests
-        run: npm test
-
-      # Every plugin that lives here is nt-prefixed, so `/nt-` lists this
-      # practice's commands and nothing else. A remote row is named for what it
-      # does, because an outside user finds it by that name, not by our prefix.
+      # Remote rows are exempt: an outside user finds one by what it does, not our prefix.
       - name: Check nt- prefix on local plugins
         run: |
           bad=$(jq -r '.plugins[] | select(.source | type == "string")
@@ -74,11 +45,7 @@ jobs:
           [ -z "$bad" ] || { echo "::error::local plugin missing nt- prefix: $bad"; exit 1; }
           echo "all local plugins are nt-prefixed"
 
-      # claude plugin validate does NOT check that the two description fields
-      # agree -- they are allowed to differ by design. This repo keeps them in
-      # sync deliberately, so guard against silent drift. Covers local plugins
-      # only; a remote row's description is a point-in-time copy of the one in
-      # that repo, and nothing here can see it drift.
+      # claude plugin validate does not compare these two fields; drift is silent.
       - name: Check description parity (plugin.json <-> marketplace.json)
         run: |
           fail=0
@@ -100,13 +67,15 @@ jobs:
                           | "\(.name) \(.source)"' .claude-plugin/marketplace.json)
           exit $fail
 
-  # The practice runs on macOS and CI runs on Linux, so a Windows teammate is the one
-  # person no other job stands in for. This runner is what makes the two Windows
-  # contracts fail loudly: .gitattributes keeping the checkout at LF, the mirror scripts
-  # keying their trees by forward slash whatever node:path reports, and the hooks
-  # resolving a body-file path the Git Bash shell handed them.
-  windows:
-    runs-on: windows-latest
+  # Every script below is node and git only; a step that shells out needs an OS carve-out.
+  portable:
+    # Serialized to keep a malformed manifest from paying for a macOS leg at 10x.
+    needs: validate
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -116,24 +85,22 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
+          cache: npm
 
-      # Deliberately not behind sfw. The validate job above installs this same lockfile
-      # through the firewall on every PR, so the fetch-time gate has already seen this
-      # package set; a second wrap scans nothing new and Socket ships no Windows binary.
+      # Unwrapped and cached: `validate` already put this lockfile through the firewall.
       - name: Install dependencies
         run: npm ci
 
+      # A plugin install runs no npm, so the skill directory has to be committed bytes.
       - name: Verify brand-kit mirror
         run: npm run brand
 
+      # Offline half of the vendoring contract; vendor-skills.yml covers the network half.
       - name: Verify vendored skill merge base
         run: node scripts/vendor-skills.mjs verify
 
       - name: Check portable shell in first-party skills
         run: node scripts/check-portable.mjs
 
-      # The reason these run here and not only on Linux: a hook reads paths out of a shell
-      # command, and Git Bash hands it an MSYS `/tmp/...` root that win32 node resolves to
-      # the wrong drive. Nothing but this runner catches that.
       - name: Run plugin hook tests
         run: npm test
