@@ -16,7 +16,7 @@ Delete a comment unless both conditions hold:
 
 Survivors explain why a choice wins or warn about a trap. Keep them to one line when possible, two lines maximum, and never more lines than the code they explain.
 
-Delete comments that describe code, explain well-named values, narrate a change, repeat another comment or memory rule, or carry authorship, tags, or dates. Age does not exempt a comment. When uncertain, keep it only if deletion could hide a footgun.
+Delete comments that describe code, explain well-named values or routine config switches, narrate a change, repeat another comment or memory rule, or carry authorship, tags, or dates. Age does not exempt a comment. When uncertain, keep it only if deletion could hide a footgun.
 
 ## Scope
 
@@ -32,7 +32,7 @@ Do not touch generated, vendored, dependency, lock, or prose files. Preserve she
 
 ## Apply
 
-Read each comment in context. Delete failures before shortening survivors. Keep point-of-use traps; ask before moving broader rationale into a commit body or repo memory file. Leave edits uncommitted.
+Read each comment in context. Delete failures before shortening survivors. Keep point-of-use traps; ask before moving broader rationale into a commit body, PR, or repo memory file. Write commit and PR rationale for a PM or user: state outcomes and impact, not engineering narrative. Leave edits uncommitted.
 
 Inspect every diff hunk and confirm only comments changed:
 
