@@ -5,17 +5,44 @@ description: NoTambourine brand system - colors, tokens, type, spacing, componen
 
 # NoTambourine brand
 
-A boutique AI-enabled engineering agency, working as a hands-on operating partner inside
-the client's org. The client's growth is capped by their tech: a legacy commerce stack, a
+A boutique AI-enabled engineering agency for leaders whose technology is holding back the
+business.
+Senior operators work inside the client's org. The constraint may be a legacy commerce stack, a
 revenue-share SaaS, a roadmap nobody can staff for. **Value creation is the deliverable,
-and trust is earned by shipping.** A CEO who wants the culture to change gets that from
-work landing in prod, not from a workshop. Scope holds, so the estimate is worth
-something. AI at the keyboard is why a small team can price this way; it is not what the
-client buys.
+and trust is earned by shipping.** Improve how the organization works through delivery.
+AI at the keyboard is why a small team can price this way; it is not what the client buys.
+
+Define fit by the business constraint and the responsibility we take on. Mention
+private-equity experience when relevant to the conversation. Keep the general positioning
+open to clients regardless of ownership structure.
 
 The name carries the style, not the positioning. A tambourine is what you add when there
 is nothing left to add, so **NoTambourine = no padding**. That is why the design is
 confident type, one decisive pink, lots of air, no decoration.
+
+## Referrals
+
+Help a referred reader confirm fit and explain the agency to a colleague. Keep the
+signature "Senior engineers. No tambourine." beside a concrete explanation of the work.
+Use this description for an introduction:
+
+> NoTambourine works inside your team to resolve technology constraints and leaves you
+> equipped to own the result.
+
+Give referrers recognizable reasons to call:
+
+- A commerce platform limits what the business can do.
+- Vendor dependence makes necessary changes too costly or slow.
+- An important roadmap needs capacity the team cannot staff.
+
+## Offers
+
+Use these names in copy and examples. Describe the client's outcome before staffing.
+
+- **Assessment:** Identify the technology constraint and decide what to address first.
+- **Embedded:** Work inside the client's team to lead and deliver the changes.
+
+Invite a conversation before asking the reader to choose an engagement.
 
 Fuller doctrine is published, so fetch it rather than reconstructing it. Every path below
 returns `text/plain` over plain HTTP with no auth, no signup, and no redirect - `curl` or
@@ -125,16 +152,27 @@ Concise, warm, playful - in that order.
   inside it. A proposal or SOW names the parties. Never "I".
 - **A client deliverable does not sell.** No logo wall, no team slide, no methodology.
   Explain the client's own system back to them and let the restraint be the credential.
-- **Proof is a count, not an adjective.** Use the client's own numbers, before and after.
-  Reach for an adjective only where no number exists.
+- **Proof shows an observable change.** Use the client's own numbers where available.
+  Show what was blocked, what changed, and what their team can now own. Include reduced
+  operating burden and client independence. Without a number, describe a verifiable
+  before and after. Share client evidence only with permission.
+- **Make accountability personal.** Name who joins the engagement and who owns delivery.
+  Let warmth come through direct, helpful language about working together.
 - **Name the mess without blaming anyone for it.** The client lived every decision that
   built it. Copy that indicts them loses the room.
+- **Express values as commitments.** Show what the client can count on:
+  direct access to the person responsible for delivery, ownership of estimating mistakes
+  within agreed scope, and work and operating knowledge that stay with their team.
+  Describe how coordination works instead of making jokes about ceremony.
 - **Four wordmark forms, and only four.** `NoTambourine` in every human-facing sentence.
   `notambourine` is the technical slug, correct only in a path, URL, domain, GitHub org,
   npm name, or CSS class. `NoTambourine LLC` is the legal entity and appears twice at most
   in a contract - the signature block and one Definitions anchor - and nowhere else.
-  `Notambourine` is not a valid form. The same rules are published for outside agents at
-  `notambourine.com/AGENTS.md`, so a disputed flag has a public citation.
+  `Notambourine` and `No Tambourine` are not valid forms. The same rules are published for
+  outside agents at `notambourine.com/AGENTS.md`, so a disputed flag has a public citation.
+- **The signature is a sentence, not a wordmark.** In `Senior engineers. No tambourine.`,
+  `tambourine` is the instrument, lowercase, and the line stands alone - a tagline, a
+  slide, a sign-off, an email footer. Nothing else may split the wordmark across a space.
 - **Sentence case everywhere** - headlines, buttons, nav, labels. "Get started", not
   "Get Started". The lockup renders lowercase.
 - **ALL CAPS has one job:** the pink eyebrow above a heading, tracked `+0.08em`. Never a
@@ -184,8 +222,8 @@ Three brand fixtures read as tells and must survive the read:
   **Body and mono** JetBrains Mono 400. Monospace body is the practitioner signal; it is
   the point, not an accident. Every face is variable across its full axis, so no weight
   here is ever synthesized.
-- **The rounded lockup carries the play; the headings stay sober.** The reader is a PE
-  operating partner, so only the lockup gets to be warm.
+- **Keep the rounded lockup playful and the headings clear.** Use warm, direct language
+  throughout. Visual restraint should make the work easy to understand.
 - Body runs `1.7` leading and `+0.01em` tracking. Monospace at a sans's 1.55 reads cramped.
 - Tracking tightens as size grows: `--ls-tight` (-0.02em) is the floor, and `--ls-display`
   (-0.03em) is what hero type above ~56px wants. Zero on body, +0.08em on ALL-CAPS eyebrows.
@@ -209,6 +247,9 @@ grep -nE '(^|[^/.\-_a-z`])notambourine([^/.\-_a-z`]|$)' <file>
 
 # Sentence case: never a valid form
 grep -n 'Notambourine' <file>
+
+# Spaced form: never a valid form (lowercase is the instrument, in the signature line)
+grep -nE 'No[[:space:]]+Tambourine' <file>
 
 # Legal entity, 2x max (signature block + Definitions anchor)
 grep -nc 'NoTambourine LLC' <file>
